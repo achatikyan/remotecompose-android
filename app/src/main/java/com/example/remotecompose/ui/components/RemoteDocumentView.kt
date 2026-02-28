@@ -13,9 +13,10 @@ import androidx.compose.remote.player.view.RemoteComposePlayer
 fun RemoteDocumentView(
     documentBytes: ByteArray,
     modifier: Modifier = Modifier,
+    contentKey: Any = documentBytes.contentHashCode(),
     onAction: (id: Int, metadata: String?) -> Unit = { _, _ -> },
 ) {
-    key(documentBytes) {
+    key(contentKey) {
         AndroidView(
             factory = { ctx ->
                 RemoteComposePlayer(ctx).apply {

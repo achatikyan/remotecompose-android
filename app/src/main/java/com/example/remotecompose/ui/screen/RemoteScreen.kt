@@ -60,17 +60,24 @@ fun RemoteScreen(
                 .background(MaterialTheme.colorScheme.surface),
             contentAlignment = Alignment.Center
         ) {
+            val errorMessage = state.errorMessage
+            val documentBytes = state.documentBytes
+
             when {
-                state.errorMessage != null && state.documentBytes == null -> {
+                state.isLoading && documentBytes == null -> {
+                    CircularProgressIndicator()
+                }
+                errorMessage != null && documentBytes == null -> {
                     ErrorContent(
-                        errorMessage = state.errorMessage!!,
+                        errorMessage = errorMessage,
                         onRetry = { viewModel.refresh() }
                     )
                 }
-                state.documentBytes != null -> {
+                documentBytes != null -> {
                     RemoteDocumentView(
-                        documentBytes = state.documentBytes!!,
+                        documentBytes = documentBytes,
                         modifier = Modifier.fillMaxSize(),
+                        contentKey = state.lastUpdated,
                         onAction = { id, metadata ->
                             if (metadata?.startsWith("navigate:") == true) {
                                 onNavigate(metadata.removePrefix("navigate:"))

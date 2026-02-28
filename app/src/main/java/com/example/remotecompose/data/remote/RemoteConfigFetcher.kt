@@ -28,16 +28,18 @@ object RemoteConfigFetcher {
             }
 
             val response = client.newCall(requestBuilder.build()).execute()
-            if (!response.isSuccessful) {
-                return@withContext Result.failure(
-                    Exception("HTTP ${response.code}: ${response.message}")
-                )
+            response.use { resp ->
+                if (!resp.isSuccessful) {
+                    return@withContext Result.failure(
+                        Exception("HTTP ${resp.code}: ${resp.message}")
+                    )
+                }
+
+                val bytes = resp.body?.bytes()
+                    ?: return@withContext Result.failure(Exception("Empty response body"))
+
+                Result.success(bytes)
             }
-
-            val bytes = response.body?.bytes()
-                ?: return@withContext Result.failure(Exception("Empty response body"))
-
-            Result.success(bytes)
         } catch (e: Exception) {
             Result.failure(e)
         }

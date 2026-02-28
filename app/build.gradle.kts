@@ -56,7 +56,6 @@ dependencies {
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.compose.material.icons.extended)
 
     // Remote Compose player dependencies (creation happens on server)
     implementation(libs.androidx.remote.core)

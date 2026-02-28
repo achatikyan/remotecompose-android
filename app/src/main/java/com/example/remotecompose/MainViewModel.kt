@@ -7,6 +7,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.remotecompose.data.remote.RemoteConfigFetcher
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,6 +20,23 @@ data class MainUiState(
     val errorMessage: String? = null,
     val lastUpdated: Long = 0L,
 ) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is MainUiState) return false
+        return documentBytes.contentEquals(other.documentBytes)
+            && isLoading == other.isLoading
+            && errorMessage == other.errorMessage
+            && lastUpdated == other.lastUpdated
+    }
+
+    override fun hashCode(): Int {
+        var result = documentBytes?.contentHashCode() ?: 0
+        result = 31 * result + isLoading.hashCode()
+        result = 31 * result + (errorMessage?.hashCode() ?: 0)
+        result = 31 * result + lastUpdated.hashCode()
+        return result
+    }
+
     companion object {
         private const val BASE = "https://api.github.com/repos/achatikyan/remotecompose/contents"
 
@@ -34,11 +52,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val _uiState = MutableStateFlow(MainUiState())
     val uiState: StateFlow<MainUiState> = _uiState.asStateFlow()
 
-    private var configUrl: String = MainUiState.configUrlForScreen("home")
-
-    init {
-        loadDocument()
-    }
+    private var configUrl: String? = null
+    private var loadJob: Job? = null
 
     fun setConfigUrl(url: String) {
         if (url == configUrl && _uiState.value.documentBytes != null) return
@@ -51,11 +66,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun loadDocument() {
-        viewModelScope.launch {
+        val url = configUrl ?: return
+        loadJob?.cancel()
+        loadJob = viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, errorMessage = null) }
 
             try {
-                val result = RemoteConfigFetcher.fetchDocument(configUrl)
+                val result = RemoteConfigFetcher.fetchDocument(url)
                 result.fold(
                     onSuccess = { bytes ->
                         val changed = !bytes.contentEquals(_uiState.value.documentBytes)
