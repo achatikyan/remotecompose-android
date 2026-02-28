@@ -2,6 +2,8 @@
 
 The Android client for the [Remote Compose Demo](https://github.com/achatikyan/remotecompose) — a pure player app that downloads and renders server-driven UI using [AndroidX Remote Compose](https://developer.android.com/jetpack/androidx/releases/compose-remote).
 
+<img src="app-screenshot.png" width="300" alt="App Screenshot">
+
 ## How It Works
 
 The app downloads pre-built binary Remote Compose documents (`.rc` files) from GitHub and renders them natively using `RemoteComposePlayer`. No JSON parsing, no UI creation code — just binary bytes in, native UI out.
