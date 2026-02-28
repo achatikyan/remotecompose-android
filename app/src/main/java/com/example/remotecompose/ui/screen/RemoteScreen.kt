@@ -72,7 +72,6 @@ fun RemoteScreen(
                         documentBytes = state.documentBytes!!,
                         modifier = Modifier.fillMaxSize(),
                         onAction = { id, metadata ->
-                            viewModel.onAction(id, metadata)
                             if (metadata?.startsWith("navigate:") == true) {
                                 onNavigate(metadata.removePrefix("navigate:"))
                             } else {

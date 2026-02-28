@@ -17,7 +17,6 @@ data class MainUiState(
     val documentBytes: ByteArray? = null,
     val isLoading: Boolean = true,
     val errorMessage: String? = null,
-    val lastActionMessage: String = "No interaction yet",
     val lastUpdated: Long = 0L,
 ) {
     companion object {
@@ -49,11 +48,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun refresh() {
         loadDocument()
-    }
-
-    fun onAction(id: Int, metadata: String?) {
-        val message = "Action (ID: $id, Data: $metadata)"
-        _uiState.update { it.copy(lastActionMessage = message) }
     }
 
     private fun loadDocument() {

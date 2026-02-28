@@ -28,10 +28,6 @@ val BackgroundLight = Color(0xFFFFFBFF)
 val OnBackgroundLight = Color(0xFF1F1B16)
 val SurfaceLight = Color(0xFFFFFBFF)
 val OnSurfaceLight = Color(0xFF1F1B16)
-val SurfaceVariantLight = Color(0xFFF0E0CF)
-val OnSurfaceVariantLight = Color(0xFF4F4539)
-val OutlineLight = Color(0xFF817567)
-
 // Dark Theme
 val PrimaryDark = Color(0xFFFFB951) // Vibrant Amber
 val OnPrimaryDark = Color(0xFF452B00)
@@ -57,6 +53,3 @@ val BackgroundDark = Color(0xFF1F1B16)
 val OnBackgroundDark = Color(0xFFEAE1D9)
 val SurfaceDark = Color(0xFF1F1B16)
 val OnSurfaceDark = Color(0xFFEAE1D9)
-val SurfaceVariantDark = Color(0xFF4F4539)
-val OnSurfaceVariantDark = Color(0xFFD3C4B4)
-val OutlineDark = Color(0xFF9C8F80)

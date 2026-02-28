@@ -30,6 +30,7 @@ android {
 
     buildFeatures {
         buildConfig = true
+        compose = true
     }
 
     buildTypes {
@@ -41,9 +42,6 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
-    }
-    buildFeatures {
-        compose = true
     }
     kotlinOptions {
         jvmTarget = "11"
@@ -57,18 +55,14 @@ dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.graphics)
-    implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.material.icons.extended)
-    implementation(libs.material)
 
     // Remote Compose player dependencies (creation happens on server)
     implementation(libs.androidx.remote.core)
     implementation(libs.androidx.remote.player.core)
     implementation(libs.androidx.remote.player.view)
-    implementation("androidx.compose.remote:remote-tooling-preview:1.0.0-alpha05")
-    implementation(libs.core.ktx)
-    implementation(libs.appcompat)
+
     implementation(libs.okhttp)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
